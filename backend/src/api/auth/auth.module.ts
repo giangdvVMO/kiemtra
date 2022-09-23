@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
+import { AuthService } from './auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ValidatorService } from './validations/check-expiration-time';
-import { UsersModule } from '../users/users.module';
+import { UserModule } from '../user/user.module';
+import { JWT_CONFIG } from 'src/configs/constant.config';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UsersModule } from '../users/users.module';
         expiresIn: JWT_CONFIG.EXPIRED_IN,
       },
     }),
-    UsersModule,
+    UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, ValidatorService],
