@@ -1,6 +1,7 @@
 export interface JwtPayload {
   sub?: number;
-  email: string;
+  username?: string;
+  email?: string;
   scopes?: string[];
   isAdministrator?: boolean;
   name?: string;

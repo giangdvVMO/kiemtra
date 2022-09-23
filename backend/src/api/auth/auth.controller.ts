@@ -8,6 +8,7 @@ import {
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { AUTH_SWAGGER_RESPONSE } from './auth.constant';
+import { RegisterDto } from './dto/register.dto';
 
 @ApiTags('Authentication')
 @Controller({
@@ -22,11 +23,19 @@ export class AuthController {
   @ApiUnauthorizedResponse(AUTH_SWAGGER_RESPONSE.UNAUTHORIZED_EXCEPTION)
   @Post('login')
   async login(@Body() body: LoginDto) {
-    const { email, password } = body;
-    const user: any = await this.authService.validateUser(email, password);
+    const { username, password } = body;
+    const user: any = await this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException();
     }
     return this.authService.login(user);
+  }
+
+  @ApiOkResponse(AUTH_SWAGGER_RESPONSE.LOGIN_SUCCESS)
+  @ApiNotFoundResponse(AUTH_SWAGGER_RESPONSE.LOGIN_FAIL)
+  @ApiUnauthorizedResponse(AUTH_SWAGGER_RESPONSE.UNAUTHORIZED_EXCEPTION)
+  @Post('register')
+  async register(@Body() body: RegisterDto) {
+    return null;
   }
 }

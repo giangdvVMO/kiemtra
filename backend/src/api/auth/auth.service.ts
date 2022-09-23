@@ -16,16 +16,18 @@ export class AuthService {
     private readonly validatorService: ValidatorService,
   ) {}
 
-  async validateUser(email: string, password: string) {
-    // const user = await this.userService.findOne(email);
-    // if (!user) {
-    //   throw new BadRequestException('User not found, disabled or locked');
-    // }
-    // const comparePassword = await bcrypt.compare(password, user.password);
-    // if (user && comparePassword) {
-    //   return user;
-    // }
-    // return null;
+  async validateUser(username: string, password: string) {
+    const user: any = await this.userService.findOneByCondition({
+      username: username,
+    });
+    if (!user) {
+      throw new BadRequestException('User not found, disabled or locked');
+    }
+    const comparePassword = await bcrypt.compare(password, user.password);
+    if (user && comparePassword) {
+      return user;
+    }
+    return null;
   }
 
   async login(user: any): Promise<LoginResponseDto> {
@@ -37,11 +39,11 @@ export class AuthService {
     // });
 
     const payload: JwtPayload = {
-      sub: user.id,
-      email: user.email,
+      sub: user._id,
+      username: user.username,
       // scopes: permissions,
-      isAdministrator: user.is_administrator,
-      name: user.first_name,
+      // isAdministrator: user.is_administrator,
+      // name: user.first_name,
     };
     return {
       accessToken: this.jwtService.sign(payload),
