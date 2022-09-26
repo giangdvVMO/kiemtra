@@ -1,3 +1,3 @@
 export const About = () => {
-    return 'About website';
+    return ('About website');
 }

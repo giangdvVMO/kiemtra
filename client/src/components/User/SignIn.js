@@ -7,8 +7,7 @@ import '../../styles/form.css';
 const SignIn = () => {
     const [user, setUser] = useState({
         username: '',
-        password: '',
-        type: ''
+        password: ''
     });
 
     const ref = useRef();
@@ -63,7 +62,7 @@ const SignIn = () => {
                     autoComplete="off"
 
                 >
-                    <Typography type="secondary" className='title'>ĐĂNG NHẬP</Typography>
+                    <Typography type="secondary" className='title m-b-50px'>ĐĂNG NHẬP</Typography>
                     <Form.Item
                         label="Tên đăng nhập"
                         name="username"

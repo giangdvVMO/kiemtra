@@ -1,16 +1,21 @@
 import { InfoCircleOutlined, MailOutlined, PhoneOutlined, UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
-import { Button, Checkbox, DatePicker, Form, Input, Select, Tooltip, Typography } from 'antd';
+import { Button, DatePicker, Form, Input, Select, Tooltip, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import '../../styles/form.css';
+import { serverURL } from '../../configs/server.config';
 
 const SignUp = () => {
     const [account, setAccount] = useState({
         username: '',
         password: '',
         fullname: '',
+        email: '',
         birthday: '',
         phone: '',
+        type: ''
     });
 
     const ref = useRef();
@@ -33,8 +38,21 @@ const SignUp = () => {
         setAccount((preUser) => { return { ...preUser, fullname: e.target.value } });
     }
 
-    function handleChangeBirthday(e) {
-        setAccount((preUser) => { return { ...preUser, birthday: e.target.value } });
+    function handleChangeBirthday(date, dateString) {
+        setAccount((preUser) => { return { ...preUser, birthday: dateString } });
+    }
+
+    function handleChangeEmail(e) {
+        console.log(e.target.value);
+        setAccount((preUser) => { return { ...preUser, email: e.target.value } });
+    }
+
+    function handleChangePhone(e) {
+        setAccount((preUser) => { return { ...preUser, phone: e.target.value } });
+    }
+
+    function handleChangeSelect(value) {
+        setAccount((preUser) => { return { ...preUser, type: value } });
     }
 
     function onFinish(e) {
@@ -57,11 +75,13 @@ const SignUp = () => {
     }
 
     const navigate = useNavigate();
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         console.log("submit");
         ref.current.submit();
-
-        navigate("/");
+        console.log(account);
+        const url = serverURL + '/register';
+        const response = await axios.post(url, account);
+        // navigate("/");
     }
     return (
         <div className='center-container'>
@@ -77,7 +97,8 @@ const SignUp = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <Typography type="secondary" className='title'>ĐĂNG KÝ</Typography>
+
+                    <Typography type='secondary' className='title m-x-30px'>ĐĂNG KÝ</Typography>
                     <Form.Item
                         label="Tên đăng nhập"
                         name="username"
@@ -95,7 +116,7 @@ const SignUp = () => {
                                     />
                                 </Tooltip>
                             }
-                            value={user.username}
+                            value={account.username}
                             onChange={handleChangeUserName}
                         />
                     </Form.Item>
@@ -122,7 +143,7 @@ const SignUp = () => {
                             className='input-login'
                             placeholder="Nhập họ và tên"
                             autoFocus={true}
-                            value={user.fullname}
+                            value={account.fullname}
                             onChange={handleChangeFullName}
                         />
                     </Form.Item>
@@ -135,10 +156,11 @@ const SignUp = () => {
                         <Input
                             className='input-login'
                             placeholder="Nhập Email"
+                            type='email'
                             autoFocus={true}
                             prefix={<MailOutlined className='input-icon' />}
-                            value={user.username}
-                            onChange={handleChangeUserName}
+                            value={account.email}
+                            onChange={handleChangeEmail}
                         />
                     </Form.Item>
 
@@ -152,8 +174,8 @@ const SignUp = () => {
                             placeholder="Nhập Số điện thoại"
                             autoFocus={true}
                             prefix={<><PhoneOutlined className='input-icon' /><span>+84 </span></>}
-                            value={user.phone}
-                            onChange={handleChangeUserName}
+                            value={account.phone}
+                            onChange={handleChangePhone}
                         />
                     </Form.Item>
                     <div className='two-colums'>
@@ -164,18 +186,19 @@ const SignUp = () => {
                         >
                             <DatePicker className='birthday-input'
                                 autoFocus={true}
-                                value={user.birthday}
+                                value={account.birthday}
                                 onChange={handleChangeBirthday} />
                         </Form.Item>
-                        <Form.Item name="type" label="Đối tượng"
+                        <Form.Item name='type' label="Đối tượng"
                             rules={[{ required: true }]}
                             tooltip={{ title: 'Chỉ được chọn 1', icon: <InfoCircleOutlined /> }}>
                             <Select
                                 className='select'
                                 placeholder="Bạn là ai?"
                                 allowClear
+                                onChange={handleChangeSelect}
                                 options={options}
-                                dropdownClassName='dropdown'
+                                popupClassName='dropdown'
                             >
                             </Select>
                         </Form.Item>
@@ -183,7 +206,7 @@ const SignUp = () => {
                     <Form.Item name="register">
                         Bạn đã có tài khoản? <Link to='/sign-in'>Đăng nhập</Link>
                     </Form.Item>
-                    <Form.Item>
+                    <Form.Item name='submitframe'>
                         <Button type='submit' ref={refButtonSubmit} name='button-submit' className='button submit' onSubmit={handleSubmit} onClick={handleSubmit} onKeyUp={handleKeyUp}>Submit</Button>
                         <Button type='reset' className='button reset'>Reset</Button>
                     </Form.Item>

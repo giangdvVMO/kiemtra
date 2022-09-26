@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PageNotFound from './components/Common/PageNotFound';
 import { Home } from './components/Common/Home';
 import { News } from './components/Common/News';
+import { About } from './components/Common/About'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
