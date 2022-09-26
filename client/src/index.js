@@ -7,28 +7,28 @@ import SignIn from './components/User/SignIn';
 import SignUp from './components/User/SignUp';
 import { UserProvider } from './components/User/UserProvider';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PageNotFound from './components/PageNotFound';
+import PageNotFound from './components/Common/PageNotFound';
+import { Home } from './components/Common/Home';
+import { News } from './components/Common/News';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-     <UserProvider>
-
-<BrowserRouter>
-
-  <Routes>
-    <Route path='/signIn' element={<SignIn />} />
-    <Route path='/register' element={<SignUp />} />
-    <Route path="/" element={<App />} >
-      {/* <Route path="profile" element={<Profile />} />
-      <Route path="news" element={<News />} /> */}
-    </Route>
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-
-</BrowserRouter>
-</UserProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <UserProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/sign-in' element={<SignIn />} />
+        <Route path='/register' element={<SignUp />} />
+        <Route path="/" element={<App />} >
+          <Route path="home" element={<Home />} />
+          <Route path="news" element={<News />} />
+          <Route path="about" element={<About />} />
+        </Route>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
+  </UserProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

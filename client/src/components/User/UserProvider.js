@@ -3,7 +3,7 @@ import { createContext, useState } from "react"
 const UserContext = createContext();
 
 function UserProvider({ children }) {
-    const [user, setUser] = useState({ name: 'x', age: 0 });
+    const [user, setUser] = useState(undefined);
     const changeUser = (user) => {
         setUser((prev) => { return { ...user } });
     }

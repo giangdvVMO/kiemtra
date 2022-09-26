@@ -1,14 +1,16 @@
-import { InfoCircleOutlined,MailOutlined,PhoneOutlined , UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, MailOutlined, PhoneOutlined, UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
 import { Button, Checkbox, DatePicker, Form, Input, Select, Tooltip, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/form.css';
 
 const SignUp = () => {
-    const [user, setUser] = useState({
+    const [account, setAccount] = useState({
         username: '',
         password: '',
-        type: ''
+        fullname: '',
+        birthday: '',
+        phone: '',
     });
 
     const ref = useRef();
@@ -20,19 +22,19 @@ const SignUp = () => {
     ];
 
     function handleChangeUserName(e) {
-        setUser((preUser) => { return { ...preUser, username: e.target.value } });
+        setAccount((preUser) => { return { ...preUser, username: e.target.value } });
     }
 
     function handleChangePassword(e) {
-        setUser((preUser) => { return { ...preUser, password: e.target.value } });
+        setAccount((preUser) => { return { ...preUser, password: e.target.value } });
     }
-    
+
     function handleChangeFullName(e) {
-        setUser((preUser) => { return { ...preUser, fullname: e.target.value } });
+        setAccount((preUser) => { return { ...preUser, fullname: e.target.value } });
     }
 
     function handleChangeBirthday(e) {
-        setUser((preUser) => { return { ...preUser, birthday: e.target.value } });
+        setAccount((preUser) => { return { ...preUser, birthday: e.target.value } });
     }
 
     function onFinish(e) {
@@ -58,6 +60,7 @@ const SignUp = () => {
     function handleSubmit(e) {
         console.log("submit");
         ref.current.submit();
+
         navigate("/");
     }
     return (
@@ -73,7 +76,6 @@ const SignUp = () => {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
-
                 >
                     <Typography type="secondary" className='title'>ĐĂNG KÝ</Typography>
                     <Form.Item
@@ -139,7 +141,7 @@ const SignUp = () => {
                             onChange={handleChangeUserName}
                         />
                     </Form.Item>
-                    
+
                     <Form.Item
                         label="Số điện thoại"
                         name="phone"
@@ -155,31 +157,31 @@ const SignUp = () => {
                         />
                     </Form.Item>
                     <div className='two-colums'>
-                    <Form.Item
-                        label="Ngày sinh"
-                        name="birthday"
-                        rules={[{ required: true, message: 'Hãy nhập Ngày sinh!' }]}
-                    >
-                        <DatePicker className='birthday-input'
-                           autoFocus={true}
-                           value={user.birthday}
-                           onChange={handleChangeBirthday}/>
-                    </Form.Item>
-                    <Form.Item name="type" label="Đối tượng" 
-                        rules={[{ required: true }]} 
-                        tooltip={{ title: 'Chỉ được chọn 1', icon: <InfoCircleOutlined /> }}>
-                        <Select
-                            className='select'
-                            placeholder="Bạn là ai?"
-                            allowClear
-                            options={options}
-                            dropdownClassName='dropdown'
+                        <Form.Item
+                            label="Ngày sinh"
+                            name="birthday"
+                            rules={[{ required: true, message: 'Hãy nhập Ngày sinh!' }]}
                         >
-                        </Select>
-                    </Form.Item>
+                            <DatePicker className='birthday-input'
+                                autoFocus={true}
+                                value={user.birthday}
+                                onChange={handleChangeBirthday} />
+                        </Form.Item>
+                        <Form.Item name="type" label="Đối tượng"
+                            rules={[{ required: true }]}
+                            tooltip={{ title: 'Chỉ được chọn 1', icon: <InfoCircleOutlined /> }}>
+                            <Select
+                                className='select'
+                                placeholder="Bạn là ai?"
+                                allowClear
+                                options={options}
+                                dropdownClassName='dropdown'
+                            >
+                            </Select>
+                        </Form.Item>
                     </div>
                     <Form.Item name="register">
-                        Bạn đã có tài khoản? <Link to='/signIn'>Đăng nhập</Link>
+                        Bạn đã có tài khoản? <Link to='/sign-in'>Đăng nhập</Link>
                     </Form.Item>
                     <Form.Item>
                         <Button type='submit' ref={refButtonSubmit} name='button-submit' className='button submit' onSubmit={handleSubmit} onClick={handleSubmit} onKeyUp={handleKeyUp}>Submit</Button>
@@ -187,7 +189,7 @@ const SignUp = () => {
                     </Form.Item>
                 </Form>
             </div>
-            </div>
+        </div>
     );
 }
 

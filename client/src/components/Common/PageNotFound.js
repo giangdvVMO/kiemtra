@@ -1,5 +1,5 @@
 import { Result } from "antd";
-import "../styles/page-not-found.css";
+import "../../styles/page-not-found.css";
 
 const PageNotFound = () => {
     return (

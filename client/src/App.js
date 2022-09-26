@@ -10,9 +10,7 @@ function App() {
   const newUser = { name: 'hi', age: 18 }
   return (<div>
     <div className='App'>
-      {/* <SignIn /> */}
-
-      <Nav user={user}/>
+      <Nav user={user} />
     </div>
     <Outlet />
   </div>

@@ -6,6 +6,7 @@ import '../../styles/account.css';
 
 const Account = () => {
     const { user } = useContext(UserContext)
+    console.log(user);
     const detailAccount = (
         <Menu className="menu-account"
             items={[
