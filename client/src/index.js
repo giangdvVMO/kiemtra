@@ -3,11 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SignIn from './components/User/SignIn';
+import SignUp from './components/User/SignUp';
+import { UserProvider } from './components/User/UserProvider';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PageNotFound from './components/PageNotFound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+     <UserProvider>
+
+<BrowserRouter>
+
+  <Routes>
+    <Route path='/signIn' element={<SignIn />} />
+    <Route path='/register' element={<SignUp />} />
+    <Route path="/" element={<App />} >
+      {/* <Route path="profile" element={<Profile />} />
+      <Route path="news" element={<News />} /> */}
+    </Route>
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+
+</BrowserRouter>
+</UserProvider>
   </React.StrictMode>
 );
 
