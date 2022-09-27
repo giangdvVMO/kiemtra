@@ -8,13 +8,35 @@ export type UserDocument = User & Document;
 })
 export class User {
   @Prop()
-  name: string;
+  _id: number;
 
   @Prop()
-  age: number;
+  username: string;
 
   @Prop()
-  breed: string;
+  password: string;
+
+  @Prop()
+  email: string;
+
+  @Prop()
+  fullname: string;
+
+  @Prop()
+  birthday: Date;
+
+  @Prop()
+  role: string;
+
+  @Prop({ default: 0 })
+  status: boolean;
+
+  @Prop()
+  phone: string;
+
+  @Prop({ default: null })
+  idCompany: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.index({ email: 1, username: 1 }, { unique: true });

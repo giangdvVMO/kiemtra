@@ -31,7 +31,11 @@ import {
 import { QueryParamDto } from './dto/query-param.dto';
 import { USER_SWAGGER_RESPONSE } from './user.constant';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateInternaleUserDto } from './dto/create-user.dto';
+import {
+  CreateInternaleUserDto,
+  CreateUserDto,
+  CreateUserDtoBatch,
+} from './dto/create-user.dto';
 import { UserService } from './user.service';
 
 @Controller({
@@ -40,11 +44,15 @@ import { UserService } from './user.service';
 })
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('User')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Post('create-user')
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
   // @ApiParam({
   //   name: 'id',
   //   type: 'string',

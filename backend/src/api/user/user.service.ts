@@ -2,15 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { CreateUserDtoBatch } from './dto/create-user.dto';
+import { CreateUserDto, CreateUserDtoBatch } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
-  create(createUserDto: CreateUserDtoBatch) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const userDocument: any = {
+      ...createUserDto,
+      birthday: Date.parse(createUserDto.birthday),
+      _id: 1,
+    };
+    const user = await this.userModel.create(userDocument);
+    return user;
   }
 
   findAll() {

@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   ArrayMinSize,
   IsArray,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsInt,
@@ -11,6 +12,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+import { RoleEnum } from 'src/share/common/enum';
 
 export class CreateInternaleUserDto {
   @ApiProperty({
@@ -174,4 +176,41 @@ export class CreateMultilpleUsersDto {
   @IsArray()
   @ArrayMinSize(1)
   users: CreateUserDtoBatch[];
+}
+
+export class CreateUserDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  fullname: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsDateString()
+  birthday: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEnum(RoleEnum)
+  role: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  phone: string;
 }
