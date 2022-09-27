@@ -7,23 +7,25 @@ export type UserDocument = User & Document;
   collection: 'tbl_user',
 })
 export class User {
-  @Prop()
+  @Prop({
+    type: Number,
+  })
   _id: number;
 
-  @Prop()
+  @Prop({})
   username: string;
+
+  @Prop()
+  email: number;
 
   @Prop()
   password: string;
 
   @Prop()
-  email: string;
-
-  @Prop()
   fullname: string;
 
   @Prop()
-  birthday: Date;
+  birthday: number;
 
   @Prop()
   role: string;
@@ -34,7 +36,11 @@ export class User {
   @Prop()
   phone: string;
 
-  @Prop({ default: null })
+  @Prop({
+    type: Number,
+    ref: 'tbl_company',
+    nullable: true,
+  })
   idCompany: number;
 }
 

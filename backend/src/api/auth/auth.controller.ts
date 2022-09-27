@@ -36,6 +36,7 @@ export class AuthController {
   @ApiUnauthorizedResponse(AUTH_SWAGGER_RESPONSE.UNAUTHORIZED_EXCEPTION)
   @Post('register')
   async register(@Body() body: RegisterDto) {
+    
     return null;
   }
 }
