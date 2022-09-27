@@ -1,7 +1,10 @@
 import { InfoCircleOutlined, UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Tooltip, Typography } from 'antd';
+import { Button, Checkbox, Form, Input, message, Tooltip, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { messageSignUpError } from '../../common/error';
+import { checkPassword, checkUsername } from '../../common/validation';
+import { serverURL } from '../../configs/server.config';
 import '../../styles/form.css';
 
 const SignIn = () => {
@@ -13,6 +16,47 @@ const SignIn = () => {
     const ref = useRef();
     const refButtonSubmit = useRef();
 
+    const [validateUsername,setValidateUsername] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validatePassword,setValidatePassword] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+
+    function checkUserNameFunc(username){
+        if(!checkUsername(username)){
+            setValidateUsername({
+                status: 'error',
+                errorMsg: messageSignUpError.username
+            })
+            return false;
+        }else{
+            setValidateUsername({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkPasswordFunc(password){
+        if(!checkPassword(password)){
+            setValidatePassword({
+                status: 'error',
+                errorMsg: messageSignUpError.password
+            })
+            return false;
+        }else{
+            setValidatePassword({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
     function handleChangeUserName(e) {
         setUser((preUser) => { return { ...preUser, username: e.target.value } });
     }
@@ -21,19 +65,8 @@ const SignIn = () => {
         setUser((preUser) => { return { ...preUser, password: e.target.value } });
     }
 
-    function onFinish(e) {
-
-    }
-    function onFinishFailed(e) {
-
-    }
-
-    function onGenderChange(e) {
-
-    }
-
     function handleKeyUp(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             console.log('enter');
             refButtonSubmit.current.focus();
             refButtonSubmit.current.click();
@@ -41,10 +74,31 @@ const SignIn = () => {
     }
 
     const navigate = useNavigate();
-    function handleSubmit(e) {
-        console.log("submit");
+    async function handleSubmit(e) {
         ref.current.submit();
-        navigate("/");
+        let count =0;
+        count =checkPasswordFunc(user.fullname)? count:count+1;
+        count =checkUserNameFunc(user.username)? count:count+1;
+        console.log(count);
+        if(count===0){
+            const url = serverURL + 'auth/login';
+            try{
+                // const response = await axios.post(url, user);
+                const response = await fetch(url,{
+                    method: 'GET',
+                    body: JSON.stringify(user)
+                }
+                );
+
+                console.log(response);
+                message.success("Bạn đã đăng nhập thành công")
+                navigate('/');
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        return;
     }
     return (
         <div className='grid-container'>
@@ -57,8 +111,6 @@ const SignIn = () => {
                     name="basic"
                     layout='vertical'
                     initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
                     autoComplete="off"
 
                 >
@@ -66,6 +118,8 @@ const SignIn = () => {
                     <Form.Item
                         label="Tên đăng nhập"
                         name="username"
+                        validateStatus={validateUsername.status}
+                        help={validateUsername.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập tên đăng nhập!' }]}
                         tooltip={{ title: 'Tên đăng nhập là duy nhất', icon: <InfoCircleOutlined /> }}
                     >
@@ -87,6 +141,8 @@ const SignIn = () => {
                     <Form.Item
                         label="Password"
                         name="password"
+                        validateStatus={validatePassword.status}
+                        help={validatePassword.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập password!' }]}
                         tooltip={{ title: 'Password bao gồm 8 kí tự trở lên, có cả chữ và số! ', icon: <InfoCircleOutlined /> }}
                     >

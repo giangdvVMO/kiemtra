@@ -240,7 +240,6 @@ const SignUp = () => {
                 console.log(err);
             }
         }
-        console.log('false');
         return;
     }
         
