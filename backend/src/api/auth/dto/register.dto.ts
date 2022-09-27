@@ -5,7 +5,12 @@ import {
   IsString,
   MaxLength,
   IsDateString,
+  IsEnum,
+  IsPhoneNumber,
+  maxLength,
 } from 'class-validator';
+import { maxLengthPhone } from 'src/share/common/constanst';
+import { RoleEnum } from 'src/share/common/enum';
 
 export class RegisterDto {
   @ApiProperty({
@@ -40,10 +45,28 @@ export class RegisterDto {
   fullname: string;
 
   @ApiProperty({
-    description: 'fullname',
+    description: 'birthday',
   })
   @IsNotEmpty()
   @IsString()
   @IsDateString()
   birthday: string;
+
+  @ApiProperty({
+    description: 'phone',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(maxLengthPhone, {
+    message: `Số điện thoại tối đa ${maxLengthPhone} kí tự`,
+  })
+  @IsPhoneNumber()
+  phone: string;
+
+  @ApiProperty({
+    description: 'role',
+  })
+  @IsNotEmpty()
+  @IsEnum(RoleEnum)
+  role: string;
 }

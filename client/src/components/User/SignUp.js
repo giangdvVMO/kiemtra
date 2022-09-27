@@ -1,11 +1,13 @@
 import { InfoCircleOutlined, MailOutlined, PhoneOutlined, UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Input, Select, Tooltip, Typography } from 'antd';
+import { Button, DatePicker, Form, Input, message, Select, Tooltip, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import '../../styles/form.css';
 import { serverURL } from '../../configs/server.config';
+import { checkBirthday, checkFullName, checkMail, checkPassword, checkPhone, checkRole, checkUsername } from '../../common/validation';
+import { messageSignUpError } from '../../common/error';
 
 const SignUp = () => {
     const [account, setAccount] = useState({
@@ -15,11 +17,44 @@ const SignUp = () => {
         email: '',
         birthday: '',
         phone: '',
-        type: ''
+        role: ''
     });
 
+    const [validateEmail,setValidateEmail] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validatePhone,setValidatePhone] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validateUsername,setValidateUsername] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validatePassword,setValidatePassword] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validateRole,setValidateRole] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validateFullname,setValidateFullname] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+    const [validateBirthday,setValidateBirthday] = useState({
+        status: 'success',
+        errorMsg: null
+    });
+
+
     const ref = useRef();
+    const refUserName = useRef();
     const refButtonSubmit = useRef();
+    const navigate = useNavigate();
+
     //Autocomplete list type: 
     const options = [
         { value: 'company', label: 'Doanh nghiệp' },
@@ -52,18 +87,7 @@ const SignUp = () => {
     }
 
     function handleChangeSelect(value) {
-        setAccount((preUser) => { return { ...preUser, type: value } });
-    }
-
-    function onFinish(e) {
-
-    }
-    function onFinishFailed(e) {
-
-    }
-
-    function onGenderChange(e) {
-
+        setAccount((preUser) => { return { ...preUser, role: value } });
     }
 
     function handleKeyUp(e) {
@@ -74,15 +98,152 @@ const SignUp = () => {
         }
     }
 
-    const navigate = useNavigate();
-    async function handleSubmit(e) {
-        console.log("submit");
-        ref.current.submit();
-        console.log(account);
-        const url = serverURL + '/register';
-        const response = await axios.post(url, account);
-        // navigate("/");
+    function checkMailFunc(email){
+        if(!checkMail(email)){
+            setValidateEmail({
+                status: 'error',
+                errorMsg: messageSignUpError.email
+            })
+            return false;
+        }else{
+            setValidateEmail({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
     }
+
+    function checkPhoneFunc(phone){
+        if(!checkPhone(phone)){
+            setValidatePhone({
+                status: 'error',
+                errorMsg: messageSignUpError.phone
+            })
+            return false;
+        }else{
+            setValidatePhone({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+    
+    function checkUserNameFunc(username){
+        if(!checkUsername(username)){
+            setValidateUsername({
+                status: 'error',
+                errorMsg: messageSignUpError.username
+            })
+            return false;
+        }else{
+            setValidateUsername({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkPasswordFunc(password){
+        if(!checkPassword(password)){
+            setValidatePassword({
+                status: 'error',
+                errorMsg: messageSignUpError.password
+            })
+            return false;
+        }else{
+            setValidatePassword({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkRoleFunc(role){
+        if(!checkRole(role)){
+            setValidateRole({
+                status: 'error',
+                errorMsg: messageSignUpError.role
+            })
+            return false;
+        }else{
+            setValidateRole({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkFullNameFunc(fullname){
+        if(!checkFullName(fullname)){
+            setValidateFullname({
+                status: 'error',
+                errorMsg: messageSignUpError.fullname
+            })
+            return false;
+        }else{
+            setValidateFullname({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkBirthdayFunc(birthday){
+        if(!checkBirthday(birthday)){
+            setValidateBirthday({
+                status: 'error',
+                errorMsg: messageSignUpError.birthday
+            })
+            return false;
+        }else{
+            setValidateBirthday({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    async function handleSubmit(e) {
+        ref.current.submit();
+        let count =0;
+        count = checkMailFunc(account.email)? count:count+1;
+        count = checkPhoneFunc(account.phone)? count:count+1;
+        count =checkFullNameFunc(account.fullname)? count:count+1;
+        count =checkPasswordFunc(account.fullname)? count:count+1;
+        count =checkRoleFunc(account.role)? count:count+1;
+        count =checkUserNameFunc(account.username)? count:count+1;
+        count =checkBirthdayFunc(account.birthday)? count:count+1;
+        console.log(count);
+        if(count===0){
+            account.phone = '+84'+account.phone;
+            const url = serverURL + 'auth/register';
+            try{
+                // const response = await axios.post(url, account);
+                const response = await fetch(url,{
+                    method: 'POST',
+                    body: JSON.stringify(account)
+                }
+                );
+
+                console.log(response);
+                message.success("Bạn đã đăng kí thành công")
+                navigate('/');
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        console.log('false');
+        return;
+    }
+        
     return (
         <div className='center-container'>
             <div className='flex-container register'>
@@ -93,8 +254,6 @@ const SignUp = () => {
                     name="basic"
                     layout='vertical'
                     initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
 
@@ -102,10 +261,13 @@ const SignUp = () => {
                     <Form.Item
                         label="Tên đăng nhập"
                         name="username"
+                        validateStatus={validateUsername.status}
+                        help={validateUsername.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập Tên đăng nhập!' }]}
                         tooltip={{ title: 'Tên đăng nhập là duy nhất', icon: <InfoCircleOutlined /> }}
                     >
                         <Input
+                        ref={refUserName}
                             className='input-login'
                             placeholder="Nhập tên đăng nhập"
                             autoFocus={true}
@@ -123,6 +285,8 @@ const SignUp = () => {
                     <Form.Item
                         label="Mật khẩu"
                         name="password"
+                        validateStatus={validatePassword.status}
+                        help={validatePassword.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập mật khẩu!' }]}
                         tooltip={{ title: 'mật khẩu bao gồm 8 kí tự trở lên, có cả chữ và số! ', icon: <InfoCircleOutlined /> }}
                     >
@@ -137,6 +301,8 @@ const SignUp = () => {
                     <Form.Item
                         label="Họ và tên"
                         name="fullname"
+                        validateStatus={validateFullname.status}
+                        help={validateFullname.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập họ và tên!' }]}
                     >
                         <Input
@@ -150,6 +316,8 @@ const SignUp = () => {
                     <Form.Item
                         label="Email"
                         name="email"
+                        validateStatus={validateEmail.status}
+                        help={validateEmail.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập Email!' }]}
                         tooltip={{ title: 'Email là duy nhất', icon: <InfoCircleOutlined /> }}
                     >
@@ -167,6 +335,8 @@ const SignUp = () => {
                     <Form.Item
                         label="Số điện thoại"
                         name="phone"
+                        validateStatus={validatePhone.status}
+                        help={validatePhone.errorMsg}
                         rules={[{ required: true, message: 'Hãy nhập Số điện thoại!' }]}
                     >
                         <Input
@@ -182,6 +352,8 @@ const SignUp = () => {
                         <Form.Item
                             label="Ngày sinh"
                             name="birthday"
+                            validateStatus={validateBirthday.status}
+                            help={validateBirthday.errorMsg}
                             rules={[{ required: true, message: 'Hãy nhập Ngày sinh!' }]}
                         >
                             <DatePicker className='birthday-input'
@@ -189,8 +361,10 @@ const SignUp = () => {
                                 value={account.birthday}
                                 onChange={handleChangeBirthday} />
                         </Form.Item>
-                        <Form.Item name='type' label="Đối tượng"
+                        <Form.Item name='role' label="Đối tượng"
                             rules={[{ required: true }]}
+                            validateStatus={validateRole.status}
+                            help={validateRole.errorMsg}
                             tooltip={{ title: 'Chỉ được chọn 1', icon: <InfoCircleOutlined /> }}>
                             <Select
                                 className='select'

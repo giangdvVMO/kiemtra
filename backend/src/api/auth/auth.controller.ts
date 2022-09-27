@@ -9,6 +9,7 @@ import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { AUTH_SWAGGER_RESPONSE } from './auth.constant';
 import { RegisterDto } from './dto/register.dto';
+import { UserService } from '../user/user.service';
 
 @ApiTags('Authentication')
 @Controller({
@@ -16,7 +17,10 @@ import { RegisterDto } from './dto/register.dto';
   path: 'auth',
 })
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @ApiOkResponse(AUTH_SWAGGER_RESPONSE.LOGIN_SUCCESS)
   @ApiNotFoundResponse(AUTH_SWAGGER_RESPONSE.LOGIN_FAIL)
@@ -36,7 +40,6 @@ export class AuthController {
   @ApiUnauthorizedResponse(AUTH_SWAGGER_RESPONSE.UNAUTHORIZED_EXCEPTION)
   @Post('register')
   async register(@Body() body: RegisterDto) {
-    
-    return null;
+    return this.userService.create(body);
   }
 }

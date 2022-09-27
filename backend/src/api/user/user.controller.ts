@@ -1,41 +1,9 @@
 import {
-  Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,
-  Query,
-  Patch,
   UseInterceptors,
-  Post,
-  UseGuards,
-  Param,
-  UploadedFile,
 } from '@nestjs/common';
-import {
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiTags,
-  ApiBadRequestResponse,
-  ApiParam,
-  ApiConsumes,
-  ApiBody,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
-import { GetUser } from 'src/share/decorator/get-user.decorator';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
-import {
-  ChangeUserPasswordDto,
-  FileUploadDto,
-  UpdateInforUser,
-} from './dto/update-user.dto';
-import { QueryParamDto } from './dto/query-param.dto';
-import { USER_SWAGGER_RESPONSE } from './user.constant';
-import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  CreateInternaleUserDto,
-  CreateUserDto,
-  CreateUserDtoBatch,
-} from './dto/create-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
 @Controller({
@@ -49,10 +17,10 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('create-user')
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
+  // @Post('create-user')
+  // createUser(@Body() createUserDto: CreateUserDto) {
+  //   return this.userService.create(createUserDto);
+  // }
   // @ApiParam({
   //   name: 'id',
   //   type: 'string',

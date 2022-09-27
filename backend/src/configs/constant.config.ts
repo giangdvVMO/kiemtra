@@ -5,8 +5,8 @@ export const NODE_ENV = process.env.NODE_ENV;
 export const JWT_CONFIG = {
   SECRET: process.env.TOKEN_SECRET,
   EXPIRED_IN: process.env.TOKEN_EXPIRED_IN,
-  SALT_ROUNDS: 12,
 };
+export const SALT_ROUNDS = 12;
 
 export const MYSQL_CONFIG = {
   hostMaster: process.env.MYSQL_MASTER_HOST || '',

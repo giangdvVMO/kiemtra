@@ -31,19 +31,10 @@ export class AuthService {
   }
 
   async login(user: any): Promise<LoginResponseDto> {
-    // const rolePermissions =
-    //   await this.rolesPermissionService.findAllByCondition({ role: user.role });
-
-    // const permissions = rolePermissions.data.map((rolePermiss) => {
-    //   return rolePermiss.permission.name;
-    // });
-
     const payload: JwtPayload = {
       sub: user._id,
       username: user.username,
-      // scopes: permissions,
-      // isAdministrator: user.is_administrator,
-      // name: user.first_name,
+      email: user.email,
     };
     return {
       accessToken: this.jwtService.sign(payload),
