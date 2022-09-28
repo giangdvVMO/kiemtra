@@ -59,7 +59,8 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const updateUser = await this.userModel.updateOne();
     return `This action updates a #${id} user`;
   }
 

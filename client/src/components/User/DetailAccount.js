@@ -1,25 +1,47 @@
-import { InfoCircleOutlined, MailOutlined, PhoneOutlined, UserOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Input, message, Select, Tooltip, Typography } from 'antd';
-import React, { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { InfoCircleOutlined, KeyOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, DatePicker, Form, Input, message, Modal, Select, Tooltip } from 'antd';
+import { useContext, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import '../../styles/form.css';
-import { serverURL } from '../../configs/server.config';
-import { checkBirthday, checkFullName, checkMail, checkPassword, checkPhone, checkRole, checkUsername } from '../../common/validation';
 import { messageSignUpError } from '../../common/error';
+import { checkBirthday, checkFullName, checkMail, checkPassword, checkPhone, checkRole, checkUsername } from '../../common/validation';
+import { serverURL } from '../../configs/server.config';
+import '../../styles/form.css'
+import '../../styles/my-account.css'
+import { ChangePassword } from './ChangePassword';
+import { UserContext } from './UserProvider';
 
-const SignUp = () => {
+export const DetailAccount = ()=>{
+    const {user} = useContext(UserContext);
+    const [isEdit, setIsEdit] = useState(false);
+    const [isOpenModal,setIsOpenModal] = useState(false);
+
+    const role = user?user.role:'student';
+    let users= user?user:{
+        _id: 1,
+        username: "giang",
+        password: "12345678",
+        fullname: "giang",
+        email: "123@gmail.com",
+        birthday: new Date("2000-12-12"),
+        phone: "+840866023111",
+        role: "student",
+        status: 1
+    }
+    const date = new Date();
+    console.log(date.toISOString());
     const [account, setAccount] = useState({
-        username: '',
-        password: '',
-        fullname: '',
-        email: '',
-        birthday: '',
-        phone: '',
-        role: ''
+        _id: users._id,
+        username: users.username,
+        password: users.password,
+        fullname: users.fullname,
+        email: users.email,
+        birthday: users.birthday,
+        phone: users.phone,
+        role: users.role,
+        status: users.status
     });
-
+    console.log(account);
     const defaultTrueStatus = {
         status: 'success',
         errorMsg: null
@@ -31,7 +53,6 @@ const SignUp = () => {
     const [validateRole,setValidateRole] = useState(defaultTrueStatus);
     const [validateFullname,setValidateFullname] = useState(defaultTrueStatus);
     const [validateBirthday,setValidateBirthday] = useState(defaultTrueStatus);
-
 
     const ref = useRef();
     const refUserName = useRef();
@@ -68,11 +89,7 @@ const SignUp = () => {
     function handleChangePhone(e) {
         setAccount((preUser) => { return { ...preUser, phone: e.target.value } });
     }
-
-    function handleChangeSelect(value) {
-        setAccount((preUser) => { return { ...preUser, role: value } });
-    }
-
+    
     function handleKeyUp(e) {
         if (e.keyCode === 13) {
             console.log('enter');
@@ -89,10 +106,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidateEmail({
-                status:'success',
-                errorMsg: null
-            })
+            setValidateEmail(defaultTrueStatus)
             return true;
         }
     }
@@ -105,10 +119,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidatePhone({
-                status:'success',
-                errorMsg: null
-            })
+            setValidatePhone(defaultTrueStatus)
             return true;
         }
     }
@@ -121,10 +132,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidateUsername({
-                status:'success',
-                errorMsg: null
-            })
+            setValidateUsername(defaultTrueStatus)
             return true;
         }
     }
@@ -137,10 +145,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidatePassword({
-                status:'success',
-                errorMsg: null
-            })
+            setValidatePassword(defaultTrueStatus)
             return true;
         }
     }
@@ -153,10 +158,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidateRole({
-                status:'success',
-                errorMsg: null
-            })
+            setValidateRole(defaultTrueStatus)
             return true;
         }
     }
@@ -169,10 +171,7 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidateFullname({
-                status:'success',
-                errorMsg: null
-            })
+            setValidateFullname(defaultTrueStatus)
             return true;
         }
     }
@@ -185,21 +184,37 @@ const SignUp = () => {
             })
             return false;
         }else{
-            setValidateBirthday({
-                status:'success',
-                errorMsg: null
-            })
+            setValidateBirthday(defaultTrueStatus)
             return true;
         }
     }
 
-    async function handleSubmit(e) {
+    async function handleEdit(e){
+        setIsEdit(true);
+        return;
+    }
+
+    async function handleCancel(e){
+        setIsEdit(false);
+        return;
+    }
+
+    async function handleChange(e){
+        setIsOpenModal(true);
+        return;
+    }
+
+    const handleOk = ()=>{
+
+    }
+
+    async function handleSave(e) {
         ref.current.submit();
         let count =0;
         count = checkMailFunc(account.email)? count:count+1;
         count = checkPhoneFunc(account.phone)? count:count+1;
         count =checkFullNameFunc(account.fullname)? count:count+1;
-        count =checkPasswordFunc(account.fullname)? count:count+1;
+        count =checkPasswordFunc(account.password)? count:count+1;
         count =checkRoleFunc(account.role)? count:count+1;
         count =checkUserNameFunc(account.username)? count:count+1;
         count =checkBirthdayFunc(account.birthday)? count:count+1;
@@ -210,26 +225,67 @@ const SignUp = () => {
             try{
                 // const response = await axios.post(url, account);
                 const response = await fetch(url,{
-                    method: 'POST',
+                    method: 'PATCH',
                     body: JSON.stringify(account)
                 }
                 );
 
                 console.log(response);
-                message.success("Bạn đã đăng kí thành công")
+                message.success("Bạn đã sửa thành công!")
                 navigate('/');
             }
             catch(err){
                 console.log(err);
+                message.error("Đã có lỗi xảy ra!");
             }
         }
+        setIsEdit(false);
         return;
     }
-        
-    return (
-        <div className='center-container'>
-            <div className='flex-container register'>
-                <Form
+    const renderButtonGroup = ()=>{
+        if(!isEdit){
+            return (
+                <Button type='submit' className='button edit-btn' onClick={handleEdit}>Sửa</Button>
+            )
+        }else{
+            return (
+                <>
+                <Button type='submit' className='button save-btn' onClick={handleSave}>Lưu</Button>
+                <Button type='reset' className='button cancel-btn' onClick={handleCancel}>Hủy</Button>
+                </>
+            )
+        }
+    }
+
+    const renderStatus = ()=>{
+        if(account.status){
+            return <div className='active'>active</div>
+        }else{
+            return <div className='inactive'>inactive</div>
+        }
+    }
+
+    const renderChangePasswordBtn = ()=>{
+        if(!isEdit){
+            return (
+                <Button className='button change-btn' onClick={handleChange}>Đổi</Button>
+            )
+        }
+    }
+
+    return (<div className='swapper-container'>
+        <div className='introduce-frame'>
+            <div className='background-image'></div>
+            <div className='introduce-bottom'>
+                <Avatar className='avatar' size= {120} icon={<UserOutlined />} />
+                <div className='introduce-fullname'>{account.fullname}</div>
+            </div>
+        </div>
+        <div className='detail-swapper'>
+            <p className='title-account'>Thông tin tài khoản</p>
+            <div className='underline'></div>
+            <div className='body'>
+            <Form
                     ref={ref}
                     onKeyUp={handleKeyUp}
                     className='form'
@@ -238,18 +294,18 @@ const SignUp = () => {
                     initialValues={{ remember: true }}
                     autoComplete="off"
                 >
-                    <Typography type='secondary' className='title m-x-30px'>ĐĂNG KÝ</Typography>
+                    <div className='two-colums'>
                     <Form.Item
+                        initialValue={account.username}
                         label="Tên đăng nhập"
                         name="username"
                         validateStatus={validateUsername.status}
                         help={validateUsername.errorMsg}
-                        rules={[{ required: true, message: 'Hãy nhập Tên đăng nhập!' }]}
-                        tooltip={{ title: 'Tên đăng nhập là duy nhất', icon: <InfoCircleOutlined /> }}
                     >
                         <Input
                             ref={refUserName}
-                            className='input-login'
+                            disabled={!isEdit}
+                            className='input-login max-width'
                             placeholder="Nhập tên đăng nhập"
                             autoFocus={true}
                             prefix={<UserOutlined className='input-icon' />}
@@ -268,26 +324,28 @@ const SignUp = () => {
                         name="password"
                         validateStatus={validatePassword.status}
                         help={validatePassword.errorMsg}
-                        rules={[{ required: true, message: 'Hãy nhập mật khẩu!' }]}
-                        tooltip={{ title: 'mật khẩu bao gồm 8 kí tự trở lên, có cả chữ và số! ', icon: <InfoCircleOutlined /> }}
                     >
-                        <Input.Password
-                            className='input-login'
-                            placeholder="Nhập mật khẩu"
-                            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                            prefix={<KeyOutlined className='input-icon' />}
-                            onChange={handleChangePassword}
-                        />
+                        <div className='group'>
+                            <Input.Password
+                                className='input-login max-width'
+                                disabled={!isEdit}
+                                prefix={<KeyOutlined className='input-icon' />}
+                                onChange={handleChangePassword}
+                            />
+                            {
+                                renderChangePasswordBtn()
+                            }
+                        </div>
                     </Form.Item>
                     <Form.Item
                         label="Họ và tên"
                         name="fullname"
                         validateStatus={validateFullname.status}
                         help={validateFullname.errorMsg}
-                        rules={[{ required: true, message: 'Hãy nhập họ và tên!' }]}
                     >
                         <Input
-                            className='input-login'
+                            disabled={!isEdit}
+                            className='input-login max-width'
                             placeholder="Nhập họ và tên"
                             autoFocus={true}
                             value={account.fullname}
@@ -299,13 +357,12 @@ const SignUp = () => {
                         name="email"
                         validateStatus={validateEmail.status}
                         help={validateEmail.errorMsg}
-                        rules={[{ required: true, message: 'Hãy nhập Email!' }]}
-                        tooltip={{ title: 'Email là duy nhất', icon: <InfoCircleOutlined /> }}
                     >
                         <Input
-                            className='input-login'
+                            className='input-login max-width'
                             placeholder="Nhập Email"
                             type='email'
+                            disabled={!isEdit}
                             autoFocus={true}
                             prefix={<MailOutlined className='input-icon' />}
                             value={account.email}
@@ -318,57 +375,57 @@ const SignUp = () => {
                         name="phone"
                         validateStatus={validatePhone.status}
                         help={validatePhone.errorMsg}
-                        rules={[{ required: true, message: 'Hãy nhập Số điện thoại!' }]}
                     >
                         <Input
-                            className='input-login'
+                            className='input-login max-width'
                             placeholder="Nhập Số điện thoại"
                             autoFocus={true}
+                            disabled={!isEdit}
                             prefix={<><PhoneOutlined className='input-icon' /><span>+84 </span></>}
                             value={account.phone}
                             onChange={handleChangePhone}
                         />
                     </Form.Item>
-                    <div className='two-colums'>
                         <Form.Item
                             label="Ngày sinh"
                             name="birthday"
                             validateStatus={validateBirthday.status}
                             help={validateBirthday.errorMsg}
-                            rules={[{ required: true, message: 'Hãy nhập Ngày sinh!' }]}
                         >
                             <DatePicker className='birthday-input'
                                 autoFocus={true}
+                                disabled={!isEdit}
                                 value={account.birthday}
                                 onChange={handleChangeBirthday} />
                         </Form.Item>
                         <Form.Item name='role' label="Đối tượng"
-                            rules={[{ required: true }]}
                             validateStatus={validateRole.status}
                             help={validateRole.errorMsg}
-                            tooltip={{ title: 'Chỉ được chọn 1', icon: <InfoCircleOutlined /> }}>
-                            <Select
-                                className='select'
-                                placeholder="Bạn là ai?"
-                                allowClear
-                                onChange={handleChangeSelect}
-                                options={options}
-                                popupClassName='dropdown'
                             >
-                            </Select>
+                                <div className='role-name'>{account.role}</div>
+                        </Form.Item>
+                        <Form.Item name='status' label="Trạng thái"
+                            validateStatus={validateRole.status}
+                            help={validateRole.errorMsg}
+                            >
+                                <div className='status'>{
+                                    renderStatus()
+                                }</div>
                         </Form.Item>
                     </div>
-                    <Form.Item name="register">
-                        Bạn đã có tài khoản? <Link to='/sign-in'>Đăng nhập</Link>
-                    </Form.Item>
-                    <Form.Item name='submitframe'>
-                        <Button type='submit' ref={refButtonSubmit} name='button-submit' className='button submit' onSubmit={handleSubmit} onClick={handleSubmit} onKeyUp={handleKeyUp}>Submit</Button>
-                        <Button type='reset' className='button reset'>Reset</Button>
-                    </Form.Item>
-                </Form>
+                        <Form.Item>
+                        <div className='group-button'>
+                            {
+                                renderButtonGroup()
+                            }
+                        </div>
+                        </Form.Item>
+                    </Form>
             </div>
         </div>
-    );
+        <Modal title='Đổi mật khẩu' onOk={handleOk} open={isOpenModal}>
+            <ChangePassword/>
+        </Modal>
+    </div>
+    )
 }
-
-export default SignUp;

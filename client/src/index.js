@@ -11,6 +11,7 @@ import PageNotFound from './components/Common/PageNotFound';
 import { Home } from './components/Common/Home';
 import { News } from './components/Common/News';
 import { About } from './components/Common/About'
+import { DetailAccount } from './components/User/DetailAccount';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
           <Route path="home" element={<Home />} />
           <Route path="news" element={<News />} />
           <Route path="about" element={<About />} />
+          <Route path="myaccount" element={<DetailAccount />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

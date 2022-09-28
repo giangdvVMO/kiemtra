@@ -23,8 +23,8 @@
 
 .form {
     width: 70%;
-    /* height: fit-content; */
     text-align: center;
+    margin: 0 auto;
 }
 
 .title {
@@ -35,7 +35,7 @@
 
 .input-login {
     border-color: green;
-    height: 50px;
+    height: 40px;
     border-radius: 10px;
 }
 
@@ -100,6 +100,11 @@
 }
 .m-b-50px{
     margin-bottom: 50px;
+}
+
+.active{
+    color: green;
+    border-color: green;
 }
 @media screen and (max-width: 800px){
     .grid-container {
