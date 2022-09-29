@@ -20,7 +20,7 @@ export default function (app: INestApplication) {
     defaultVersion: ['1'],
     prefix: 'api/v',
   });
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(new ValidationPipe());
 
   if (process.env.NODE_ENV !== 'production') {

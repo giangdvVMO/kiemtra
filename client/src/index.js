@@ -15,22 +15,22 @@ import { DetailAccount } from './components/User/DetailAccount';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  <UserProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/sign-in' element={<SignIn />} />
-        <Route path='/register' element={<SignUp />} />
-        <Route path="/" element={<App />} >
-          <Route path="home" element={<Home />} />
-          <Route path="news" element={<News />} />
-          <Route path="about" element={<About />} />
-          <Route path="myaccount" element={<DetailAccount />} />
-        </Route>
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </UserProvider>
+  <React.StrictMode>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/register' element={<SignUp />} />
+          <Route path="/" element={<App />} >
+            <Route path="home" element={<Home />} />
+            <Route path="news" element={<News />} />
+            <Route path="about" element={<About />} />
+            <Route path="myaccount" element={<DetailAccount />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   // </React.StrictMode>
 );
 

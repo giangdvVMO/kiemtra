@@ -40,6 +40,6 @@ export class AuthController {
   @ApiUnauthorizedResponse(AUTH_SWAGGER_RESPONSE.UNAUTHORIZED_EXCEPTION)
   @Post('register')
   async register(@Body() body: RegisterDto) {
-    return this.userService.create(body);
+    return await this.userService.create(body);
   }
 }

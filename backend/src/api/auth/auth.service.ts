@@ -20,12 +20,13 @@ export class AuthService {
     const user: any = await this.userService.findOneByCondition({
       username: username,
     });
-    if (!user) {
+    console.log(user);
+    if (!user.length) {
       throw new BadRequestException('User not found, disabled or locked');
     }
-    const comparePassword = await bcrypt.compare(password, user.password);
-    if (user && comparePassword) {
-      return user;
+    const comparePassword = bcrypt.compareSync(password, user[0].password);
+    if (user.length && comparePassword) {
+      return user[0];
     }
     return null;
   }
@@ -36,6 +37,7 @@ export class AuthService {
       username: user.username,
       email: user.email,
     };
+    console.log(payload);
     return {
       accessToken: this.jwtService.sign(payload),
     };

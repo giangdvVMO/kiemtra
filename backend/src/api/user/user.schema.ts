@@ -10,9 +10,7 @@ export type UserDocument = User & Document;
   collection: 'tbl_user',
 })
 export class User {
-  @Prop({
-    type: Number,
-  })
+  @Prop()
   _id: number;
 
   @Prop({ type: String, unique: true, required: true })
@@ -43,6 +41,7 @@ export class User {
     type: Number,
     ref: 'tbl_company',
     nullable: true,
+    default: null
   })
   idCompany: number;
 }

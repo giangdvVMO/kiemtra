@@ -16,41 +16,41 @@ const SignIn = () => {
     const ref = useRef();
     const refButtonSubmit = useRef();
 
-    const [validateUsername,setValidateUsername] = useState({
+    const [validateUsername, setValidateUsername] = useState({
         status: 'success',
         errorMsg: null
     });
-    const [validatePassword,setValidatePassword] = useState({
+    const [validatePassword, setValidatePassword] = useState({
         status: 'success',
         errorMsg: null
     });
 
-    function checkUserNameFunc(username){
-        if(!checkUsername(username)){
+    function checkUserNameFunc(username) {
+        if (!checkUsername(username)) {
             setValidateUsername({
                 status: 'error',
                 errorMsg: messageSignUpError.username
             })
             return false;
-        }else{
+        } else {
             setValidateUsername({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkPasswordFunc(password){
-        if(!checkPassword(password)){
+    function checkPasswordFunc(password) {
+        if (!checkPassword(password)) {
             setValidatePassword({
                 status: 'error',
                 errorMsg: messageSignUpError.password
             })
             return false;
-        }else{
+        } else {
             setValidatePassword({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
@@ -75,26 +75,28 @@ const SignIn = () => {
 
     const navigate = useNavigate();
     async function handleSubmit(e) {
-        ref.current.submit();
-        let count =0;
-        count =checkPasswordFunc(user.fullname)? count:count+1;
-        count =checkUserNameFunc(user.username)? count:count+1;
+        // ref.current.submit();
+        let count = 0;
+        count = checkPasswordFunc(user.password) ? count : count + 1;
+        count = checkUserNameFunc(user.username) ? count : count + 1;
         console.log(count);
-        if(count===0){
+        console.log(user);
+        if (count === 0) {
             const url = serverURL + 'auth/login';
-            try{
-                // const response = await axios.post(url, user);
-                const response = await fetch(url,{
-                    method: 'GET',
-                    body: JSON.stringify(user)
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(user),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 }
                 );
-
-                console.log(response);
+                console.log(await response.json());
                 message.success("Bạn đã đăng nhập thành công")
                 navigate('/');
             }
-            catch(err){
+            catch (err) {
                 console.log(err);
             }
         }
