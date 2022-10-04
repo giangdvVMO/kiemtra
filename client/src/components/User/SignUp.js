@@ -20,6 +20,8 @@ const SignUp = () => {
         role: ''
     });
 
+    const [repassword, setRepassword] = useState(''); 
+
     const defaultTrueStatus = {
         status: 'success',
         errorMsg: null
@@ -31,7 +33,8 @@ const SignUp = () => {
     const [validateRole,setValidateRole] = useState(defaultTrueStatus);
     const [validateFullname,setValidateFullname] = useState(defaultTrueStatus);
     const [validateBirthday,setValidateBirthday] = useState(defaultTrueStatus);
-
+    const [validateRePassword,setValidaterePassword] = useState(defaultTrueStatus);
+    
 
     const ref = useRef();
     const refUserName = useRef();
@@ -71,6 +74,10 @@ const SignUp = () => {
 
     function handleChangeSelect(value) {
         setAccount((preUser) => { return { ...preUser, role: value } });
+    }
+
+    function handleChangeRePassword(value) {
+        setRepassword(value);
     }
 
     function handleKeyUp(e) {
@@ -134,6 +141,22 @@ const SignUp = () => {
             setValidatePassword({
                 status: 'error',
                 errorMsg: messageSignUpError.password
+            })
+            return false;
+        }else{
+            setValidatePassword({
+                status:'success',
+                errorMsg: null
+            })
+            return true;
+        }
+    }
+
+    function checkRePasswordFunc(repassword, password){
+        if(repassword!==password){
+            setValidatePassword({
+                status: 'error',
+                errorMsg: messageSignUpError.confirmpassword
             })
             return false;
         }else{
@@ -277,6 +300,22 @@ const SignUp = () => {
                             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             prefix={<KeyOutlined className='input-icon' />}
                             onChange={handleChangePassword}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label="Nhập lại mật khẩu"
+                        name="re-password"
+                        validateStatus={validateRePassword.status}
+                        help={validateRePassword.errorMsg}
+                        rules={[{ required: true, message: 'Hãy nhập lại mật khẩu!' }]}
+                        tooltip={{ title: 'mật khẩu bao gồm 8 kí tự trở lên, có cả chữ và số! ', icon: <InfoCircleOutlined /> }}
+                    >
+                        <Input.Password
+                            className='input-login'
+                            placeholder="Nhập lại mật khẩu"
+                            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                            prefix={<KeyOutlined className='input-icon' />}
+                            onChange={handleChangeRePassword}
                         />
                     </Form.Item>
                     <Form.Item

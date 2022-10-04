@@ -89,7 +89,7 @@ export const ChangePassword = ()=>{
                     <Form.Item
                         label="Nhập lại mật khẩu mới"
                         name="new-password"
-                        rules={[{ required: true, message: 'Hãy nhập mật khẩu lại mật khẩu mới!' }]}
+                        rules={[{ required: true, message: 'Hãy nhập lại mật khẩu mới!' }]}
                         validateStatus={validateNewPassword.status}
                         help={validateNewPassword.errorMsg}
                     >

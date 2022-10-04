@@ -12,6 +12,7 @@ import { Home } from './components/Common/Home';
 import { News } from './components/Common/News';
 import { About } from './components/Common/About'
 import { DetailAccount } from './components/User/DetailAccount';
+import { StudentProfile } from './components/Student/StudentProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,6 +27,7 @@ root.render(
           <Route path="news" element={<News />} />
           <Route path="about" element={<About />} />
           <Route path="myaccount" element={<DetailAccount />} />
+          <Route path='student' element= {<StudentProfile/>}/>
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
