@@ -11,13 +11,13 @@ import '../../styles/my-account.css'
 import { ChangePassword } from './ChangePassword';
 import { UserContext } from './UserProvider';
 
-export const DetailAccount = ()=>{
-    const {user} = useContext(UserContext);
+export const DetailAccount = () => {
+    const { user } = useContext(UserContext);
     const [isEdit, setIsEdit] = useState(false);
-    const [isOpenModal,setIsOpenModal] = useState(false);
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
-    const role = user?user.role:'student';
-    let users= user?user:{
+    const role = user ? user.role : 'student';
+    let users = user ? user : {
         _id: 1,
         username: "giang",
         password: "12345678",
@@ -46,13 +46,13 @@ export const DetailAccount = ()=>{
         status: 'success',
         errorMsg: null
     }
-    const [validateEmail,setValidateEmail] = useState(defaultTrueStatus);
-    const [validatePhone,setValidatePhone] = useState(defaultTrueStatus);
-    const [validateUsername,setValidateUsername] = useState(defaultTrueStatus);
-    const [validatePassword,setValidatePassword] = useState(defaultTrueStatus);
-    const [validateRole,setValidateRole] = useState(defaultTrueStatus);
-    const [validateFullname,setValidateFullname] = useState(defaultTrueStatus);
-    const [validateBirthday,setValidateBirthday] = useState(defaultTrueStatus);
+    const [validateEmail, setValidateEmail] = useState(defaultTrueStatus);
+    const [validatePhone, setValidatePhone] = useState(defaultTrueStatus);
+    const [validateUsername, setValidateUsername] = useState(defaultTrueStatus);
+    const [validatePassword, setValidatePassword] = useState(defaultTrueStatus);
+    const [validateRole, setValidateRole] = useState(defaultTrueStatus);
+    const [validateFullname, setValidateFullname] = useState(defaultTrueStatus);
+    const [validateBirthday, setValidateBirthday] = useState(defaultTrueStatus);
 
     const ref = useRef();
     const refUserName = useRef();
@@ -89,7 +89,7 @@ export const DetailAccount = ()=>{
     function handleChangePhone(e) {
         setAccount((preUser) => { return { ...preUser, phone: e.target.value } });
     }
-    
+
     function handleKeyUp(e) {
         if (e.keyCode === 13) {
             console.log('enter');
@@ -98,133 +98,129 @@ export const DetailAccount = ()=>{
         }
     }
 
-    function checkMailFunc(email){
-        if(!checkMail(email)){
+    function checkMailFunc(email) {
+        if (!checkMail(email)) {
             setValidateEmail({
                 status: 'error',
                 errorMsg: messageSignUpError.email
             })
             return false;
-        }else{
+        } else {
             setValidateEmail(defaultTrueStatus)
             return true;
         }
     }
 
-    function checkPhoneFunc(phone){
-        if(!checkPhone(phone)){
+    function checkPhoneFunc(phone) {
+        if (!checkPhone(phone)) {
             setValidatePhone({
                 status: 'error',
                 errorMsg: messageSignUpError.phone
             })
             return false;
-        }else{
+        } else {
             setValidatePhone(defaultTrueStatus)
             return true;
         }
     }
-    
-    function checkUserNameFunc(username){
-        if(!checkUsername(username)){
+
+    function checkUserNameFunc(username) {
+        if (!checkUsername(username)) {
             setValidateUsername({
                 status: 'error',
                 errorMsg: messageSignUpError.username
             })
             return false;
-        }else{
+        } else {
             setValidateUsername(defaultTrueStatus)
             return true;
         }
     }
 
-    function checkPasswordFunc(password){
-        if(!checkPassword(password)){
+    function checkPasswordFunc(password) {
+        if (!checkPassword(password)) {
             setValidatePassword({
                 status: 'error',
                 errorMsg: messageSignUpError.password
             })
             return false;
-        }else{
+        } else {
             setValidatePassword(defaultTrueStatus)
             return true;
         }
     }
 
-    function checkRoleFunc(role){
-        if(!checkRole(role)){
+    function checkRoleFunc(role) {
+        if (!checkRole(role)) {
             setValidateRole({
                 status: 'error',
                 errorMsg: messageSignUpError.role
             })
             return false;
-        }else{
+        } else {
             setValidateRole(defaultTrueStatus)
             return true;
         }
     }
 
-    function checkFullNameFunc(fullname){
-        if(!checkFullName(fullname)){
+    function checkFullNameFunc(fullname) {
+        if (!checkFullName(fullname)) {
             setValidateFullname({
                 status: 'error',
                 errorMsg: messageSignUpError.fullname
             })
             return false;
-        }else{
+        } else {
             setValidateFullname(defaultTrueStatus)
             return true;
         }
     }
 
-    function checkBirthdayFunc(birthday){
-        if(!checkBirthday(birthday)){
+    function checkBirthdayFunc(birthday) {
+        if (!checkBirthday(birthday)) {
             setValidateBirthday({
                 status: 'error',
                 errorMsg: messageSignUpError.birthday
             })
             return false;
-        }else{
+        } else {
             setValidateBirthday(defaultTrueStatus)
             return true;
         }
     }
 
-    async function handleEdit(e){
+    async function handleEdit(e) {
         setIsEdit(true);
         return;
     }
 
-    async function handleCancel(e){
+    async function handleCancel(e) {
         setIsEdit(false);
         return;
     }
 
-    async function handleChange(e){
+    async function handleChange(e) {
         setIsOpenModal(true);
         return;
     }
 
-    const handleOk = ()=>{
-
-    }
-
     async function handleSave(e) {
         ref.current.submit();
-        let count =0;
-        count = checkMailFunc(account.email)? count:count+1;
-        count = checkPhoneFunc(account.phone)? count:count+1;
-        count =checkFullNameFunc(account.fullname)? count:count+1;
-        count =checkPasswordFunc(account.password)? count:count+1;
-        count =checkRoleFunc(account.role)? count:count+1;
-        count =checkUserNameFunc(account.username)? count:count+1;
-        count =checkBirthdayFunc(account.birthday)? count:count+1;
+        let count = 0;
+        count = checkMailFunc(account.email) ? count : count + 1;
+        count = checkPhoneFunc(account.phone) ? count : count + 1;
+        count = checkFullNameFunc(account.fullname) ? count : count + 1;
+        count = checkPasswordFunc(account.password) ? count : count + 1;
+        count = checkRoleFunc(account.role) ? count : count + 1;
+        count = checkUserNameFunc(account.username) ? count : count + 1;
+        count = checkBirthdayFunc(account.birthday) ? count : count + 1;
         console.log(count);
-        if(count===0){
-            account.phone = '+84'+account.phone;
+        if (count === 0) {
+            account.phone = '+84' + account.phone;
             const url = serverURL + 'auth/register';
-            try{
+            try {
                 // const response = await axios.post(url, account);
-                const response = await fetch(url,{
+                const response = await fetch(url, {
                     method: 'PATCH',
                     body: JSON.stringify(account)
                 }
@@ -234,7 +230,7 @@ export const DetailAccount = ()=>{
                 message.success("Bạn đã sửa thành công!")
                 navigate('/');
             }
-            catch(err){
+            catch (err) {
                 console.log(err);
                 message.error("Đã có lỗi xảy ra!");
             }
@@ -242,31 +238,31 @@ export const DetailAccount = ()=>{
         setIsEdit(false);
         return;
     }
-    const renderButtonGroup = ()=>{
-        if(!isEdit){
+    const renderButtonGroup = () => {
+        if (!isEdit) {
             return (
                 <Button type='submit' className='button edit-btn' onClick={handleEdit}>Sửa</Button>
             )
-        }else{
+        } else {
             return (
                 <>
-                <Button type='submit' className='button save-btn' onClick={handleSave}>Lưu</Button>
-                <Button type='reset' className='button cancel-btn' onClick={handleCancel}>Hủy</Button>
+                    <Button type='submit' className='button save-btn' onClick={handleSave}>Lưu</Button>
+                    <Button type='reset' className='button cancel-btn' onClick={handleCancel}>Hủy</Button>
                 </>
             )
         }
     }
 
-    const renderStatus = ()=>{
-        if(account.status){
+    const renderStatus = () => {
+        if (account.status) {
             return <div className='active'>active</div>
-        }else{
+        } else {
             return <div className='inactive'>inactive</div>
         }
     }
 
-    const renderChangePasswordBtn = ()=>{
-        if(!isEdit){
+    const renderChangePasswordBtn = () => {
+        if (!isEdit) {
             return (
                 <Button className='button change-btn' onClick={handleChange}>Đổi</Button>
             )
@@ -277,7 +273,7 @@ export const DetailAccount = ()=>{
         <div className='introduce-frame'>
             <div className='background-image'></div>
             <div className='introduce-bottom'>
-                <Avatar className='avatar' size= {120} icon={<UserOutlined />} />
+                <Avatar className='avatar' size={120} icon={<UserOutlined />} />
                 <div className='introduce-fullname'>{account.fullname}</div>
             </div>
         </div>
@@ -285,7 +281,7 @@ export const DetailAccount = ()=>{
             <p className='title-account'>Thông tin tài khoản</p>
             <div className='underline'></div>
             <div className='body'>
-            <Form
+                <Form
                     ref={ref}
                     onKeyUp={handleKeyUp}
                     className='form'
@@ -295,97 +291,97 @@ export const DetailAccount = ()=>{
                     autoComplete="off"
                 >
                     <div className='two-colums'>
-                    <Form.Item
-                        initialValue={account.username}
-                        label="Tên đăng nhập"
-                        name="username"
-                        validateStatus={validateUsername.status}
-                        help={validateUsername.errorMsg}
-                    >
-                        <Input
-                            ref={refUserName}
-                            disabled={!isEdit}
-                            className='input-login max-width'
-                            placeholder="Nhập tên đăng nhập"
-                            autoFocus={true}
-                            prefix={<UserOutlined className='input-icon' />}
-                            suffix={
-                                <Tooltip title="Tên đăng nhập là duy nhất">
-                                    <InfoCircleOutlined className='input-icon opacity-less'
-                                    />
-                                </Tooltip>
-                            }
-                            value={account.username}
-                            onChange={handleChangeUserName}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Mật khẩu"
-                        name="password"
-                        validateStatus={validatePassword.status}
-                        help={validatePassword.errorMsg}
-                    >
-                        <div className='group'>
-                            <Input.Password
-                                className='input-login max-width'
+                        <Form.Item
+                            initialValue={account.username}
+                            label="Tên đăng nhập"
+                            name="username"
+                            validateStatus={validateUsername.status}
+                            help={validateUsername.errorMsg}
+                        >
+                            <Input
+                                ref={refUserName}
                                 disabled={!isEdit}
-                                prefix={<KeyOutlined className='input-icon' />}
-                                onChange={handleChangePassword}
+                                className='input-login max-width'
+                                placeholder="Nhập tên đăng nhập"
+                                autoFocus={true}
+                                prefix={<UserOutlined className='input-icon' />}
+                                suffix={
+                                    <Tooltip title="Tên đăng nhập là duy nhất">
+                                        <InfoCircleOutlined className='input-icon opacity-less'
+                                        />
+                                    </Tooltip>
+                                }
+                                value={account.username}
+                                onChange={handleChangeUserName}
                             />
-                            {
-                                renderChangePasswordBtn()
-                            }
-                        </div>
-                    </Form.Item>
-                    <Form.Item
-                        label="Họ và tên"
-                        name="fullname"
-                        validateStatus={validateFullname.status}
-                        help={validateFullname.errorMsg}
-                    >
-                        <Input
-                            disabled={!isEdit}
-                            className='input-login max-width'
-                            placeholder="Nhập họ và tên"
-                            autoFocus={true}
-                            value={account.fullname}
-                            onChange={handleChangeFullName}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        validateStatus={validateEmail.status}
-                        help={validateEmail.errorMsg}
-                    >
-                        <Input
-                            className='input-login max-width'
-                            placeholder="Nhập Email"
-                            type='email'
-                            disabled={!isEdit}
-                            autoFocus={true}
-                            prefix={<MailOutlined className='input-icon' />}
-                            value={account.email}
-                            onChange={handleChangeEmail}
-                        />
-                    </Form.Item>
+                        </Form.Item>
+                        <Form.Item
+                            label="Mật khẩu"
+                            name="password"
+                            validateStatus={validatePassword.status}
+                            help={validatePassword.errorMsg}
+                        >
+                            <div className='group'>
+                                <Input.Password
+                                    className='input-login max-width'
+                                    disabled={!isEdit}
+                                    prefix={<KeyOutlined className='input-icon' />}
+                                    onChange={handleChangePassword}
+                                />
+                                {
+                                    renderChangePasswordBtn()
+                                }
+                            </div>
+                        </Form.Item>
+                        <Form.Item
+                            label="Họ và tên"
+                            name="fullname"
+                            validateStatus={validateFullname.status}
+                            help={validateFullname.errorMsg}
+                        >
+                            <Input
+                                disabled={!isEdit}
+                                className='input-login max-width'
+                                placeholder="Nhập họ và tên"
+                                autoFocus={true}
+                                value={account.fullname}
+                                onChange={handleChangeFullName}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="Email"
+                            name="email"
+                            validateStatus={validateEmail.status}
+                            help={validateEmail.errorMsg}
+                        >
+                            <Input
+                                className='input-login max-width'
+                                placeholder="Nhập Email"
+                                type='email'
+                                disabled={!isEdit}
+                                autoFocus={true}
+                                prefix={<MailOutlined className='input-icon' />}
+                                value={account.email}
+                                onChange={handleChangeEmail}
+                            />
+                        </Form.Item>
 
-                    <Form.Item
-                        label="Số điện thoại"
-                        name="phone"
-                        validateStatus={validatePhone.status}
-                        help={validatePhone.errorMsg}
-                    >
-                        <Input
-                            className='input-login max-width'
-                            placeholder="Nhập Số điện thoại"
-                            autoFocus={true}
-                            disabled={!isEdit}
-                            prefix={<><PhoneOutlined className='input-icon' /><span>+84 </span></>}
-                            value={account.phone}
-                            onChange={handleChangePhone}
-                        />
-                    </Form.Item>
+                        <Form.Item
+                            label="Số điện thoại"
+                            name="phone"
+                            validateStatus={validatePhone.status}
+                            help={validatePhone.errorMsg}
+                        >
+                            <Input
+                                className='input-login max-width'
+                                placeholder="Nhập Số điện thoại"
+                                autoFocus={true}
+                                disabled={!isEdit}
+                                prefix={<><PhoneOutlined className='input-icon' /><span>+84 </span></>}
+                                value={account.phone}
+                                onChange={handleChangePhone}
+                            />
+                        </Form.Item>
                         <Form.Item
                             label="Ngày sinh"
                             name="birthday"
@@ -401,30 +397,30 @@ export const DetailAccount = ()=>{
                         <Form.Item name='role' label="Đối tượng"
                             validateStatus={validateRole.status}
                             help={validateRole.errorMsg}
-                            >
-                                <div className='role-name'>{account.role}</div>
+                        >
+                            <div className='role-name'>{account.role}</div>
                         </Form.Item>
                         <Form.Item name='status' label="Trạng thái"
                             validateStatus={validateRole.status}
                             help={validateRole.errorMsg}
-                            >
-                                <div className='status'>{
-                                    renderStatus()
-                                }</div>
+                        >
+                            <div className='status'>{
+                                renderStatus()
+                            }</div>
                         </Form.Item>
                     </div>
-                        <Form.Item>
+                    <Form.Item>
                         <div className='group-button'>
                             {
                                 renderButtonGroup()
                             }
                         </div>
-                        </Form.Item>
-                    </Form>
+                    </Form.Item>
+                </Form>
             </div>
         </div>
-        <Modal title='Đổi mật khẩu' onOk={handleOk} open={isOpenModal}>
-            <ChangePassword/>
+        <Modal title='Đổi mật khẩu' open={isOpenModal} footer={null}>
+            <ChangePassword setIsOpenModal={setIsOpenModal} />
         </Modal>
     </div>
     )

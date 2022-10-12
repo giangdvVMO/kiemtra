@@ -20,21 +20,21 @@ const SignUp = () => {
         role: ''
     });
 
-    const [repassword, setRepassword] = useState(''); 
+    const [repassword, setRepassword] = useState('');
 
     const defaultTrueStatus = {
         status: 'success',
         errorMsg: null
     }
-    const [validateEmail,setValidateEmail] = useState(defaultTrueStatus);
-    const [validatePhone,setValidatePhone] = useState(defaultTrueStatus);
-    const [validateUsername,setValidateUsername] = useState(defaultTrueStatus);
-    const [validatePassword,setValidatePassword] = useState(defaultTrueStatus);
-    const [validateRole,setValidateRole] = useState(defaultTrueStatus);
-    const [validateFullname,setValidateFullname] = useState(defaultTrueStatus);
-    const [validateBirthday,setValidateBirthday] = useState(defaultTrueStatus);
-    const [validateRePassword,setValidaterePassword] = useState(defaultTrueStatus);
-    
+    const [validateEmail, setValidateEmail] = useState(defaultTrueStatus);
+    const [validatePhone, setValidatePhone] = useState(defaultTrueStatus);
+    const [validateUsername, setValidateUsername] = useState(defaultTrueStatus);
+    const [validatePassword, setValidatePassword] = useState(defaultTrueStatus);
+    const [validateRole, setValidateRole] = useState(defaultTrueStatus);
+    const [validateFullname, setValidateFullname] = useState(defaultTrueStatus);
+    const [validateBirthday, setValidateBirthday] = useState(defaultTrueStatus);
+    const [validateRePassword, setValidaterePassword] = useState(defaultTrueStatus);
+
 
     const ref = useRef();
     const refUserName = useRef();
@@ -88,128 +88,128 @@ const SignUp = () => {
         }
     }
 
-    function checkMailFunc(email){
-        if(!checkMail(email)){
+    function checkMailFunc(email) {
+        if (!checkMail(email)) {
             setValidateEmail({
                 status: 'error',
                 errorMsg: messageSignUpError.email
             })
             return false;
-        }else{
+        } else {
             setValidateEmail({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkPhoneFunc(phone){
-        if(!checkPhone(phone)){
+    function checkPhoneFunc(phone) {
+        if (!checkPhone(phone)) {
             setValidatePhone({
                 status: 'error',
                 errorMsg: messageSignUpError.phone
             })
             return false;
-        }else{
+        } else {
             setValidatePhone({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
-    
-    function checkUserNameFunc(username){
-        if(!checkUsername(username)){
+
+    function checkUserNameFunc(username) {
+        if (!checkUsername(username)) {
             setValidateUsername({
                 status: 'error',
                 errorMsg: messageSignUpError.username
             })
             return false;
-        }else{
+        } else {
             setValidateUsername({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkPasswordFunc(password){
-        if(!checkPassword(password)){
+    function checkPasswordFunc(password) {
+        if (!checkPassword(password)) {
             setValidatePassword({
                 status: 'error',
                 errorMsg: messageSignUpError.password
             })
             return false;
-        }else{
+        } else {
             setValidatePassword({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkRePasswordFunc(repassword, password){
-        if(repassword!==password){
+    function checkRePasswordFunc(repassword, password) {
+        if (repassword !== password) {
             setValidatePassword({
                 status: 'error',
                 errorMsg: messageSignUpError.confirmpassword
             })
             return false;
-        }else{
+        } else {
             setValidatePassword({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkRoleFunc(role){
-        if(!checkRole(role)){
+    function checkRoleFunc(role) {
+        if (!checkRole(role)) {
             setValidateRole({
                 status: 'error',
                 errorMsg: messageSignUpError.role
             })
             return false;
-        }else{
+        } else {
             setValidateRole({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkFullNameFunc(fullname){
-        if(!checkFullName(fullname)){
+    function checkFullNameFunc(fullname) {
+        if (!checkFullName(fullname)) {
             setValidateFullname({
                 status: 'error',
                 errorMsg: messageSignUpError.fullname
             })
             return false;
-        }else{
+        } else {
             setValidateFullname({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
         }
     }
 
-    function checkBirthdayFunc(birthday){
-        if(!checkBirthday(birthday)){
+    function checkBirthdayFunc(birthday) {
+        if (!checkBirthday(birthday)) {
             setValidateBirthday({
                 status: 'error',
                 errorMsg: messageSignUpError.birthday
             })
             return false;
-        }else{
+        } else {
             setValidateBirthday({
-                status:'success',
+                status: 'success',
                 errorMsg: null
             })
             return true;
@@ -218,37 +218,40 @@ const SignUp = () => {
 
     async function handleSubmit(e) {
         ref.current.submit();
-        let count =0;
-        count = checkMailFunc(account.email)? count:count+1;
-        count = checkPhoneFunc(account.phone)? count:count+1;
-        count =checkFullNameFunc(account.fullname)? count:count+1;
-        count =checkPasswordFunc(account.fullname)? count:count+1;
-        count =checkRoleFunc(account.role)? count:count+1;
-        count =checkUserNameFunc(account.username)? count:count+1;
-        count =checkBirthdayFunc(account.birthday)? count:count+1;
-        console.log(count);
-        if(count===0){
-            account.phone = '+84'+account.phone;
+        let count = 0;
+        count = checkMailFunc(account.email) ? count : count + 1;
+        count = checkPhoneFunc(account.phone) ? count : count + 1;
+        count = checkFullNameFunc(account.fullname) ? count : count + 1;
+        count = checkPasswordFunc(account.password) ? count : count + 1;
+        count = checkRoleFunc(account.role) ? count : count + 1;
+        count = checkUserNameFunc(account.username) ? count : count + 1;
+        count = checkBirthdayFunc(account.birthday) ? count : count + 1;
+        console.log('validate', count);
+        if (count === 0) {
+            account.phone = '+84' + account.phone;
+            console.log(account);
             const url = serverURL + 'auth/register';
-            try{
-                // const response = await axios.post(url, account);
-                const response = await fetch(url,{
+            try {
+                const response = await fetch(url, {
                     method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify(account)
                 }
                 );
-
-                console.log(response);
+                //const response = await axios.post(url, JSON.stringify(account),{})
+                console.log('response', await response.json());
                 message.success("Bạn đã đăng kí thành công")
-                navigate('/');
+                navigate('/sign-in');
             }
-            catch(err){
+            catch (err) {
                 console.log(err);
             }
         }
         return;
     }
-        
+
     return (
         <div className='center-container'>
             <div className='flex-container register'>

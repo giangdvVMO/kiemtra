@@ -27,7 +27,7 @@ root.render(
           <Route path="news" element={<News />} />
           <Route path="about" element={<About />} />
           <Route path="myaccount" element={<DetailAccount />} />
-          <Route path='student' element= {<StudentProfile/>}/>
+          <Route path='student' element={<StudentProfile />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
