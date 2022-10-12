@@ -7,3 +7,7 @@ export const messageSignUpError = {
     fullname: 'Bạn chưa nhập họ và tên',
     birthday: 'Bạn chưa đủ 18 tuổi?'
 }
+
+export const messageChangePass = {
+    confirmPass: 'Mật khẩu nhập lại chưa đúng',
+}
