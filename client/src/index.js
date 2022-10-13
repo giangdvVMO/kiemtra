@@ -13,6 +13,7 @@ import { News } from './components/Common/News';
 import { About } from './components/Common/About'
 import { DetailAccount } from './components/User/DetailAccount';
 import { StudentProfile } from './components/Student/StudentProfile';
+import { CompanyProfile } from './components/Company/CompanyProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,7 +28,8 @@ root.render(
           <Route path="news" element={<News />} />
           <Route path="about" element={<About />} />
           <Route path="myaccount" element={<DetailAccount />} />
-          <Route path='student' element={<StudentProfile />} />
+          <Route path='student-profile' element={<StudentProfile />} />
+          <Route path='company-profile' element={<CompanyProfile />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

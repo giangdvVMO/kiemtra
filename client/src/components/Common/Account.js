@@ -7,28 +7,43 @@ import '../../styles/account.css';
 const Account = () => {
     const { user } = useContext(UserContext)
     console.log(user);
+    const items = [
+        {
+            key: '1',
+            label: (
+                <Link to='/profile'>Thông tin cá nhân</Link>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <Link to='/account'>Thông tin tài khoản</Link>
+            ),
+        },
+        {
+            key: '4',
+            label: (
+                <Link to='/signIn'>Đăng xuất</Link>
+            ),
+        },
+    ];
+    switch (user.role) {
+        case 'student': items.concat([{
+            key: '3',
+            label: (
+                <Link to='/student-profile'>Thông tin sinh viên</Link>
+            ),
+        }])
+        case 'company': items.concat([{
+            key: '3',
+            label: (
+                <Link to='/company-profile'>Thông tin doanh nghiệp</Link>
+            ),
+        }])
+    }
     const detailAccount = (
         <Menu className="menu-account"
-            items={[
-                {
-                    key: '1',
-                    label: (
-                        <Link to='/profile'>Thông tin cá nhân</Link>
-                    ),
-                },
-                {
-                    key: '2',
-                    label: (
-                        <Link to='/account'>Thông tin tài khoản</Link>
-                    ),
-                },
-                {
-                    key: '3',
-                    label: (
-                        <Link to='/signIn'>Đăng xuất</Link>
-                    ),
-                },
-            ]}
+            items={items}
         />
     )
     return (
