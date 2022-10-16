@@ -14,6 +14,7 @@ import { About } from './components/Common/About'
 import { DetailAccount } from './components/User/DetailAccount';
 import { StudentProfile } from './components/Student/StudentProfile';
 import { CompanyProfile } from './components/Company/CompanyProfile';
+import { KiemTra } from './components/User/KiemTra';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/register' element={<SignUp />} />
         <Route path="/" element={<App />} >
+          <Route path="kiem-tra" element={<KiemTra />} />
           <Route path="home" element={<Home />} />
           <Route path="news" element={<News />} />
           <Route path="about" element={<About />} />

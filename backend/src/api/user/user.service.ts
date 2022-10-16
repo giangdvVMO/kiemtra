@@ -8,10 +8,18 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
 import { RegisterDto } from '../auth/dto/register.dto';
 import { SALT_ROUNDS } from 'src/configs/constant.config';
+import { CreateProduct } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
+
+   async createSP(data: CreateProduct): Promise<User>{
+    const result = await this.userModel.create(data);
+    return result;
+  }
+
+
   async create(createUserDto: RegisterDto): Promise<any> {
     console.log(createUserDto);
     //create id

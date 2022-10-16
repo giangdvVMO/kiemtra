@@ -94,6 +94,42 @@ export class CreateInternaleUserDto {
   position: number;
 }
 
+export class CreateProduct{
+  @ApiProperty({
+    description: '_id',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(100)
+  _id: string;
+
+  @ApiProperty({
+    description: 'name',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(100)
+  name: string;
+
+  @ApiProperty({
+    description: 'year',
+  })
+  @IsNotEmpty()
+  year: number;
+
+  @ApiProperty({
+    description: 'weight',
+  })
+  @IsNotEmpty()
+  weight: number;
+
+  @ApiProperty({
+    description: 'devo',
+  })
+  @IsNotEmpty()
+  devo: boolean;
+}
+
 export class CreateUserDtoBatch {
   @ApiProperty({
     description: 'name',
