@@ -1,59 +1,51 @@
-import { Button, Checkbox, DatePicker, Input, Table } from "antd";
+import { Button, Checkbox, Input, message, Table } from "antd";
 import { useState } from "react";
 import { serverURL } from "../../configs/server.config";
 
 export const KiemTra = () => {
-    const [_id, setId] = useState('');
-    const [name, setName] = useState('');
-    const [year, setYear] = useState('');
-    const [weight, setWeight] = useState('');
-    const [devo, setDevo] = useState(false);
+    const [PK_SanphamID, setId] = useState('');
+    const [TenSanpham, setTenSanpham] = useState('');
+    const [NamSanxuat, setNamSanxuat] = useState('');
+    const [Trongluong, setTrongluong] = useState('');
+    const [Devo, setDevo] = useState(false);
     const handleChangeID = (e) => {
         setId(e.target.value);
-        console.log(_id);
+        console.log(PK_SanphamID);
     }
-    const handleChangName = (e) => {
-        setName(e.target.value);
+    const handleChangTenSanpham = (e) => {
+        setTenSanpham(e.target.value);
     }
-    const handleChangeYear = (e) => {
-        setYear(e.target.value);
+    const handleChangeNamSanxuat = (e) => {
+        setNamSanxuat(e.target.value);
     }
-    const handleChangeWeight = (e) => {
-        setWeight(e.target.value);
+    const handleChangeTrongluong = (e) => {
+        setTrongluong(e.target.value);
     }
     const handleChangeChecked = (e) => {
         setDevo(e.target.checked);
     }
-    const [list, setList] = useState([
-        {
-            _id: '1',
-            name: 'abc',
-            year: '2013',
-            weight: '20',
-            devo: false,
-        }
-    ]);
+    const [list, setList] = useState([]);
     console.log(1);
     const Add = async () => {
         let count = 0;
-        if (_id === '' || name === '' || year === '' || weight === '') {
+        const error = [];
+        if (PK_SanphamID === '' || TenSanpham === '' || NamSanxuat === '' || Trongluong === '') {
             count = count + 1;
-            console.log('Chưa nhập đủ thông tin');
+            error.push('Chưa nhập đủ thông tin');
         }
-        if (_id <= 0) {
+        if (Trongluong <= 0) {
             count = count + 1;
-            console.log('Trọng lượng phải lớn hơn 0');
+            error.push('Trọng lượng phải lớn hơn 0');
         }
         const date = new Date();
-        if (date.getFullYear() - year > 10 || date.getFullYear() - year < 0) {
+        if (date.getFullYear() - NamSanxuat > 10 || date.getFullYear() - NamSanxuat < 0) {
             count = count + 1;
-            console.log("Năm từ 10 năm trở lại");
+            error.push("Năm từ 10 năm trở lại");
         }
-        let user = { _id, name, year, weight, devo };
-        console.log("user", user);
+        let user = { PK_SanphamID, TenSanpham, NamSanxuat, Trongluong, Devo };
         if (count === 0) {
             setList([...list, user]);
-            const url = serverURL + 'user/create-product';
+            const url = serverURL + 'company';
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -70,58 +62,88 @@ export const KiemTra = () => {
                     console.error('Error:', error);
                 });
             // console.log('response', await response.json());
+        }else{
+            message.error(error.join(','));
         }
     }
+    // const columns = [
+    //     {
+    //         title: 'ID',
+    //         dataIndex: '_id',
+    //         key: '_id',
+    //     },
+    //     {
+    //         title: 'Tên sản phẩm',
+    //         dataIndex: 'TenSanpham',
+    //         key: 'TenSanpham',
+    //     },
+    //     {
+    //         title: 'Năm sản xuất',
+    //         dataIndex: 'year',
+    //         key: 'year',
+    //     },
+    //     {
+    //         title: 'Trọng lượng',
+    //         dataIndex: 'Trongluong',
+    //         key: 'Trongluong',
+    //     },
+    //     {
+    //         title: 'Trạng thái',
+    //         dataIndex: 'Devo',
+    //         key: 'Devo',
+    //     },
+    // ]
+
     const columns = [
         {
             title: 'ID',
-            dataIndex: '_id',
-            key: '_id',
+            dataIndex: 'PK_SanphamID',
+            key: 'PK_SanphamID',
         },
         {
             title: 'Tên sản phẩm',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'TenSanpham',
+            key: 'TenSanpham',
         },
         {
             title: 'Năm sản xuất',
-            dataIndex: 'year',
-            key: 'year',
+            dataIndex: 'NamSanxuat',
+            key: 'NamSanxuat',
         },
         {
             title: 'Trọng lượng',
-            dataIndex: 'weight',
-            key: 'weight',
+            dataIndex: 'Trongluong',
+            key: 'Trongluong',
         },
         {
             title: 'Trạng thái',
-            dataIndex: 'devo',
-            key: 'devo',
+            dataIndex: 'Devo',
+            key: 'Devo',
         },
     ]
     return (<>
         <p>Quản lý sản phẩm</p>
         <label>Mã sản phẩm</label>
         <Input
-            value={_id}
+            value={PK_SanphamID}
             onChange={handleChangeID}
         />
         <label>Tên sản phẩm</label>
         <Input
-            value={name}
-            onChange={handleChangName}
+            value={TenSanpham}
+            onChange={handleChangTenSanpham}
         />
         <label>Năm sản xuất</label>
         <Input
-            value={year}
-            onChange={handleChangeYear}
+            value={NamSanxuat}
+            onChange={handleChangeNamSanxuat}
         />
         <label>Trọng lượng</label>
         <Input
-            value={weight}
-            onChange={handleChangeWeight}
+            value={Trongluong}
+            onChange={handleChangeTrongluong}
         />
-        <Checkbox checked={devo} onChange={handleChangeChecked}>Hàng dễ vỡ</Checkbox>
+        <Checkbox checked={Devo} onChange={handleChangeChecked}>Hàng dễ vỡ</Checkbox>
         <Button onClick={Add}>Thêm</Button>
         <Button>Bỏ qua</Button>
 

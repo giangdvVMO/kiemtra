@@ -1,16 +1,9 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { UserModule } from './api/user/user.module';
-import { AuthModule } from './api/auth/auth.module';
 import { CompanyModule } from './api/company/company.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    UserModule,
-    AuthModule,
-    MongooseModule.forRoot('mongodb://localhost/test'),
-    CompanyModule,
-  ],
+  imports: [ConfigModule.forRoot(), CompanyModule],
 })
 export class AppModule {}

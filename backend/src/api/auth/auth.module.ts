@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ValidatorService } from './validations/check-expiration-time';
-import { UserModule } from '../user/user.module';
+// import { UserModule } from '../user/user.module';
 import { JWT_CONFIG } from 'src/configs/constant.config';
 
 @Module({
@@ -18,7 +18,7 @@ import { JWT_CONFIG } from 'src/configs/constant.config';
         expiresIn: JWT_CONFIG.EXPIRED_IN,
       },
     }),
-    UserModule,
+    // UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, ValidatorService],
